@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block body %}
+
+
+<style>
+    /* Slider container */
+    .slider-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
+    }
+
+    /* Testimonial slide */
+    .testimonial-slide {
+      display: none;
+    }
+
+    /* Testimonial content */
+    .testimonial-content {
+      margin-bottom: 20px;
+    }
+
+    /* Testimonial author */
+    .testimonial-author {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    /* Previous and Next icons */
+    .slider-nav {
+      margin-top: 10px;
+    }
+
+    .slider-nav i {
+      cursor: pointer;
+      font-size: 24px;
+      margin: 0 10px;
+    }
+    .testimonial-img{
+        width: 15%;
+    }
+  </style>
+
+
+
+<div class="pro container" style="margin-top: 150px; color:green;">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="text-center fw-bold ">Clients</h2>
+        </div>
+    </div>
+
+</div>
+
+
+
+<section class="mt-5">
+    <div class="card-group container mt-5">
+
+        <div class="row">
+            {% for clients in clients %}
+            <div class="col-md-4 g-2 ">
+
+                <div class="card " style="height: 350px; width: 300px;">
+                    <img src="{{clients.client_logo.url}}" alt="clients" alt="Responsive image" />
+
+                </div>
+
+            </div>
+
+
+            {% endfor %}
+        </div>
+
+    </div>
+</section>
+
+
+
+
+
+
+<!-- Testimonials -->
+<!-- <section id="testimonials" class="coloured container">
+    <div id="testimonial-carousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            {% for testimonial in testimonials %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                
+                    <center><img class="testimonial-img mt-5" src="{{ testimonial.author_image.url }}" alt="Author Image"></center>
+                <h5 class="con text-center text-capitalize mt-5 fw-bold text-success justify-content-around">{{ testimonial.content }} </h5>
+                
+                <h3 class="text-center text-uppercase">...{{ testimonial.author }}...</h3>
+                <center>
+                <div class="rating mb-4">
+                    {% for _ in "x"|ljust:testimonial.rating %}
+                     <span class=" fa fa-star checked " ></span> 
+                    {% endfor %}
+                </div>
+            </center>
+                
+            </div>
+            {% endfor %}
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#testimonial-carousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon "></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#testimonial-carousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon "></span>
+        </button>
+    </div>
+</section> -->
+
+
+
+<div class="pro container" style="margin-top: 150px; color:green;">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="text-center fw-bold ">Testimonials</h2>
+        </div>
+    </div>
+
+</div>
+
+
+<section>
+    <div class="slider-container">
+        {% for testimonial in testimonials %}
+        <div class="testimonial-slide bg-light rounded-3">
+            <center><img class="testimonial-img " src="{{ testimonial.author_image.url }}" alt="Author Image"></center>
+          <div class="testimonial-content">
+            <p class="text-capitalize text-success ">{{ testimonial.content }}</p>
+          </div>
+          <div class="testimonial-author mb-5">
+            <p class="text-uppercase fw-bold ">.....{{ testimonial.author }}....</p>
+          </div>
+        </div>
+        {% endfor %}
+      
+        <!-- Previous and Next icons -->
+        <div class="slider-nav">
+          <i class="ion-ios-arrow-back" onclick="showPreviousSlide()"></i>
+          <i class="ion-ios-arrow-forward" onclick="showNextSlide()"></i>
+        </div>
+      </div>
+</section>
+
+
+
+
+
+
+<script>
+    var slides = document.getElementsByClassName("testimonial-slide");
+    var currentSlide = 0;
+  
+    // Show the first slide
+    slides[currentSlide].style.display = "block";
+  
+    // Function to change slides
+    function showSlide(n) {
+      // Hide all slides
+      for (var i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      // Show the specified slide
+      slides[n].style.display = "block";
+      currentSlide = n;
+    }
+  
+    // Function to show next slide
+    function showNextSlide() {
+      var nextSlide = (currentSlide + 1) % slides.length;
+      showSlide(nextSlide);
+    }
+  
+    // Function to show previous slide
+    function showPreviousSlide() {
+      var prevSlide = (currentSlide - 1 + slides.length) % slides.length;
+      showSlide(prevSlide);
+    }
+  
+    // Automatically show next slide every 5 seconds
+    setInterval(showNextSlide, 5000);
+  </script>
+
+
+
+
+
+{% endblock body %}

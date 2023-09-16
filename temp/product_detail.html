@@ -1,0 +1,378 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block body %}
+
+
+<style>
+  /* Popup container */
+  .popup-container {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+
+  /* Popup content */
+  .popup-content {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fefefe;
+    padding: 20px;
+    width: 400px;
+    max-width: 90%;
+    text-align: center;
+  }
+
+  /* Close button */
+  .popup-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  /* Contact form */
+  .contact-form input,
+  .contact-form textarea,
+  .contact-form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  .contact-form button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section style="margin-top: 160px;">
+
+  <p class="text-uppercase container mb-4"><a href="/categories"
+      style="font-size: 13px; color: black; margin-top: -70px;">/ back Products</a></p>
+
+
+
+
+  <p class="text-uppercase container"><a href="/"
+      style="font-size: 13px; color: black; float: right; margin-top: -50px;">/ home</a></p>
+
+</section>
+
+<section class="container">
+
+
+  <div class="row">
+    <div class="col-lg-6">
+
+      <div id='lens'></div>
+
+      <div id='slideshow-items-container'>
+
+        <img class='slideshow-items active' src='{{ product.image_one.url }}'>
+        <img class='slideshow-items ' src='{{ product.image_two.url }}'>
+        <img class='slideshow-items ' src='{{ product.image_three.url }}'>
+
+      </div>
+
+      <div id='result'></div>
+
+      <div class='row'>
+        <img class='slideshow-thumbnails active' src='{{ product.image_one.url }}'>
+        <img class='slideshow-thumbnails ' src='{{ product.image_two.url }}'>
+        <img class='slideshow-thumbnails' src='{{ product.image_three.url }}'>
+      </div>
+
+
+
+    </div>
+
+    <div class="col-lg-6">
+
+      <div class="row">
+        <div class="col-lg-12">
+          <h4 class="fw-bold">{{ product.title }}</h4>
+        </div>
+
+      </div>
+
+      <div class="row mt-2">
+        <div class="col-md-12  ">
+          <p class="fw-bold text-success text-uppercase">{{ product.model_no }}</p>
+          <button type="button" class="btn btn-success" style="float: right; margin-top: -50px;" onclick="togglePopup()">
+            <i class="fa-solid fa-envelope"></i>
+            Get A Quote </button>
+
+        </div>
+      </div>
+
+
+      <div class="row mt-2">
+        <div class="col-md-12  ">
+          <div class="row mt-2">
+            <div class="col-md-12  ">
+              <ul class="nav" id="myTab" role="tablist" style="border-bottom: 0.5px solid rgb(100, 100, 100);">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active  text-success text-uppercase fw-bold" id="home-tab"
+                    data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home"
+                    aria-selected="true">specification</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link  text-success text-uppercase fw-bold" id="profile-tab" data-bs-toggle="tab"
+                    data-bs-target="#profile" type="button" role="tab" aria-controls="profile"
+                    aria-selected="false">pdf</button>
+                </li>
+                <li class="nav-item  " role="presentation">
+                  <button class="nav-link text-success text-uppercase fw-bold" id="contact-tab" data-bs-toggle="tab"
+                    data-bs-target="#contact" type="button" role="tab" aria-controls="contact"
+                    aria-selected="false">video</button>
+                </li>
+              </ul>
+              <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                  <table class="table table-striped">
+                    <tbody>
+                      <tr>
+                        <td class="fw-bold">Models</td>
+                        <td class="fw-bold text-uppercase">{{ product.model_no }}</td>
+                      </tr>
+                      <tr>
+                        <td>{{ product.des_title_one | safe }}</td>
+                        <td>{{ product.des_one | safe }}</td>
+                      </tr>
+                      <tr>
+                        <td>{{ product.des_title_two | safe }}</td>
+                        <td>{{ product.des_two | safe }}</td>
+                      </tr>
+                      <tr>
+                        <td>{{ product.des_title_three | safe }}</td>
+                        <td>{{ product.des_three | safe }}</td>
+                      </tr>
+
+                      {% if product.des_title_four and product.des_four %}
+                      <tr>
+                        <td>{{ product.des_title_four | safe }}</td>
+                        <td>{{ product.des_four | safe }}</td>
+                      </tr>
+                      {% endif %}
+
+
+                      {% if product.des_title_five and product.des_five %}
+                      <tr>
+                        <td>{{ product.des_title_five | safe }}</td>
+                        <td>{{ product.des_five | safe }}</td>
+                      </tr>
+                      {% endif %}
+
+                      {% if product.des_title_six and product.des_six %}
+                      <tr>
+                        <td>{{ product.des_title_six | safe }}</td>
+                        <td>{{ product.des_six | safe }}</td>
+                      </tr>
+                      {% endif %}
+
+                      {% if product.des_title_seven and product.des_seven %}
+                      <tr>
+                        <td>{{ product.des_title_seven | safe }}</td>
+                        <td>{{ product.des_seven | safe }}</td>
+                      </tr>
+                      {% endif %}
+
+                      {% if product.des_title_eight and product.des_eight %}
+                      <tr>
+                        <td>{{ product.des_title_eight | safe }}</td>
+                        <td>{{ product.des_eight | safe }}</td>
+                      </tr>
+                      {% endif %}
+                      {% if product.des_title_nine and product.des_nine %}
+                      <tr>
+                        <td>{{ product.des_title_nine | safe }}</td>
+                        <td>{{ product.des_nine | safe }}</td>
+                      </tr>
+                      {% endif %}
+
+                      {% if product.des_title_ten and product.des_ten %}
+                      <tr>
+                        <td>{{ product.des_title_ten | safe }}</td>
+                        <td>{{ product.des_ten | safe }}</td>
+                      </tr>
+                      {% endif %}
+
+
+                    </tbody>
+                  </table>
+
+                </div>
+                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                  {% if product.pdf %}
+                  <a href="{{ product.pdf.url }}" target="_blank" class="text-success fw-bold text-center"
+                    style="font-size: 20px;"><img src="{% static 'img/pdf.png' %}" alt="" width="200"></a>
+                    {% endif %}
+                </div>
+                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+
+
+
+                  <!-- <div class="ratio ratio-16x9">
+                    <iframe src="{{ product.youtube }}" title="A YouTube video" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+                  </div> -->
+                  
+                  <div class="ratio ratio-16x9">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ product.youtube|slice:'-11:' }}" frameborder="0" allow=" encrypted-media" allowfullscreen></iframe>
+
+                  </div>
+                  
+                  
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+</div>
+
+
+</section>
+
+<section>
+  <div class="row container mt-2">
+    <div class="col-md-12">
+  {% if product.description %}
+    <p>
+  
+    </p>
+      <td>{{ product.description | safe }}</td>
+     
+    
+    {% endif %}
+    </div>
+</section>
+
+<section>
+
+  <div class="pro container" style="margin-top: 150px; color:green;">
+    <div class="row">
+      <div class="col-12">
+        <h4 class="text-center fw-bold text-uppercase">Related Products</h4>
+        <hr>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card-group container ">
+
+    <div class="row">
+      {% for related_product in related_products %}
+      <div class="col-md-4 g-2 ">
+        <center>
+          <div class="card m-5 " style=" height: 200px; width: 200px;">
+            <a href="{% url 'product_detail' related_product.slug %}"><img src="{{ related_product.image_one.url }}"
+                alt="{{ related_product.title }}" alt="Responsive image" /></a>
+
+            <div class="card-body ">
+
+
+              <h6 class="text-capitalize text-center "><a href="{% url 'product_detail' related_product.slug %}"
+                  class="text-dark fw-bold">{{ related_product.title }}</a></h6>
+
+            </div>
+          </div>
+        </center>
+      </div>
+
+
+      {% endfor %}
+    </div>
+
+  </div>
+
+
+</section>
+
+
+
+
+<!-- form popup -->
+
+
+<div class="popup-container" id="popupContainer">
+  <div class="popup-content">
+    <span class="popup-close" onclick="togglePopup()">&times;</span>
+    <h2>Get Quotation!</h2>
+    <form class="contact-form" action="/contact" method="post">
+        {% csrf_token %}
+        <input type="text" name="name" id="name" placeholder="Your Name" required>
+        <input type="number" name="phone" id="phone" placeholder="Phone" required>
+
+        <input type="email" name="email" id="email" placeholder="Your Email" required>
+        <select name="category" >
+          {% for category in categories %}
+          
+          <option value="{{ category.name}}">{{ category.name }}</option>
+          {% endfor %}
+          
+        </select>
+
+        <input type="text" name="subject" id="subject" placeholder="Subject" required>
+        <textarea name="message" id="message" placeholder="Message" required></textarea>
+        <button type="submit" value="Send Message">Send</button>
+      </form>
+  </div>
+</div>
+
+
+<!-- form popup -->
+
+
+
+
+
+
+
+
+<!-- popup form -->
+<script>
+  function togglePopup() {
+    var popupContainer = document.getElementById("popupContainer");
+    popupContainer.style.display = (popupContainer.style.display === "none") ? "block" : "none";
+  }
+</script>
+
+
+
+
+{% endblock body %}

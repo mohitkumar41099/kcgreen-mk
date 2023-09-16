@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+    
+    {% load static %}
+
+     {% block body %}
+      
+     <div class="pro container" style="margin-top: 150px; color:green;">
+      <div class="row">
+          <div class="col-12">
+              <h2 class="text-left fw-bold">Blogs</h2>
+          </div>
+      </div>
+  
+  </div>
+
+
+<div class="card-group container mt-5">
+
+  <div class="row">
+    {% for post in posts %}
+    <div class="col-md-4 g-2 ">
+
+      <div class="card ">
+        <a href="{% url 'post_detail' post.id %}"><img src="{{post.image.url}}" alt="{{categories.name}}"
+          alt="Responsive image" /></a>
+
+          <div class="card-body ">
+
+
+            <h6 class="text-capitalize text-center "><a href="{% url 'post_detail' post.id %}" class="text-dark fw-bold">{{ post.title }}</a></h6>
+            <a href="{% url 'post_detail' post.id %}">Read More</a>
+          </div>
+          
+      </div>
+      
+    </div>
+    
+
+    {% endfor %}
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+      {% endblock body %}
